@@ -6,6 +6,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.only
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.textworld.app.presentation.theme.LocalBookColors
@@ -15,9 +19,8 @@ import com.textworld.app.presentation.theme.LocalBookTypography
 fun screenModifier(): Modifier = Modifier
     .fillMaxSize()
     .windowInsetsPadding(
-        androidx.compose.foundation.layout.WindowInsets.systemBars.only(
-            androidx.compose.foundation.layout.WindowInsetsSides.Top +
-                androidx.compose.foundation.layout.WindowInsetsSides.Horizontal,
+        WindowInsets.systemBars.only(
+            WindowInsetsSides.Top + WindowInsetsSides.Horizontal,
         ),
     )
     .padding(horizontal = 20.dp, vertical = 12.dp)

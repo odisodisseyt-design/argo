@@ -149,7 +149,7 @@ class MainViewModel(private val locator: ServiceLocator) : ViewModel() {
         viewModelScope.launch { repository.syncSettings() }
     }
 
-    fun checkUpdate() = locator.updateRepository.check()
+    suspend fun checkUpdate() = locator.updateRepository.check()
 
     class Factory(private val locator: ServiceLocator) : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")

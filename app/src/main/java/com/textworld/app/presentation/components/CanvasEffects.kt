@@ -141,7 +141,7 @@ private fun DrawScope.drawParticles(seed: Long, render: RenderState, t: Float) {
         else -> render.text
     }
     repeat(count) { i ->
-        val rnd = Random(seed xor (i.toLong() * 0x9E3779B97F4A7C15L))
+        val rnd = Random(seed xor (i.toLong() * 0x9E3779B9L))
         val px = rnd.nextFloat()
         val py0 = rnd.nextFloat()
         val sizePx = 1f + rnd.nextFloat() * 2.6f

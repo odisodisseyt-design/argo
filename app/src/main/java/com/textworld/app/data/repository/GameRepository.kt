@@ -2,6 +2,8 @@ package com.textworld.app.data.repository
 
 import com.textworld.app.BuildConfig
 import com.textworld.app.core.Outcome
+import com.textworld.app.core.getOrNull
+import com.textworld.app.core.map
 import com.textworld.app.data.model.CampaignState
 import com.textworld.app.data.model.JournalEntry
 import com.textworld.app.data.model.PendingDetail
@@ -41,11 +43,11 @@ class GameRepository(
         set(value) { settingsStore.activeCampaignId = value }
 
     init {
-        com.textworld.app.data.network.ApiClient.setBaseUrl(settingsStore.settings.value.serverUrl)
+        com.textworld.app.data.network.ApiClient.updateBaseUrl(settingsStore.settings.value.serverUrl)
     }
 
     fun applySettings() {
-        com.textworld.app.data.network.ApiClient.setBaseUrl(settingsStore.settings.value.serverUrl)
+        com.textworld.app.data.network.ApiClient.updateBaseUrl(settingsStore.settings.value.serverUrl)
         renderer.onSettings(settingsStore.settings.value)
     }
 
@@ -143,10 +145,10 @@ class GameRepository(
     ) {
         is Outcome.Failure -> result
         is Outcome.Success -> {
-            if (result.value.campaignId.isBlank()) {
+            if (result.value.campaign_id.isBlank()) {
                 Outcome.Failure(IllegalStateException("new"), result.value.message ?: "Мир не ответил. Попробуй ещё раз.")
             } else {
-                openCampaign(result.value.campaignId).map { Unit }
+                openCampaign(result.value.campaign_id).map { it.id }
             }
         }
     }
@@ -296,7 +298,7 @@ class GameRepository(
                 "character_updated" -> {
                     val obj = runCatching { TwJson.parseToJsonElement(event.payload.orEmpty()) }.getOrNull() as? JsonObject
                     val character = obj?.get("character")?.let {
-                        runCatching { TwJson.decodeFromJsonElement<com.textworld.app.data.model.Character>(it) }.getOrNull()
+                        runCatching { TwJson.decodeFromString<com.textworld.app.data.model.Character>(it.toString()) }.getOrNull()
                     }
                     if (character != null) _state.update { s ->
                         s.copy(campaign = s.campaign?.copy(character = character))
@@ -338,14 +340,16 @@ class GameRepository(
     }
 
     suspend fun inviteToGame(campaignId: String, userId: Int) {
-        val result = api.invite(campaignId, userId)
-        if (result !is Outcome.Success) showMessage(result.message)
+        when (val result = api.invite(campaignId, userId)) {
+            is Outcome.Failure -> showMessage(result.message)
+            else -> Unit
+        }
     }
 
     suspend fun acceptInvite(inviteId: Int): String? {
         val result = api.acceptInvite(inviteId)
-        return if (result is Outcome.Success && result.value.campaignId.isNotBlank()) {
-            val id = result.value.campaignId
+        return if (result is Outcome.Success && result.value.campaign_id.isNotBlank()) {
+            val id = result.value.campaign_id
             openCampaign(id)
             loadSocial()
             id
@@ -358,11 +362,12 @@ class GameRepository(
     suspend fun branchAction(action: String, branchId: String = "") {
         val id = activeCampaignId ?: return
         val result = api.branch(action, mapOf("campaign_id" to id, "branch_id" to branchId))
-        if (result is Outcome.Success) {
-            result.value.prose?.let { prose -> _state.update { it.copy(prose = prose) } }
-            if (action == "rewind") _state.update { it.copy(rewindTrigger = it.rewindTrigger + 1) }
-        } else {
-            showMessage(result.message)
+        when (result) {
+            is Outcome.Success -> {
+                result.value.prose?.let { prose -> _state.update { it.copy(prose = prose) } }
+                if (action == "rewind") _state.update { it.copy(rewindTrigger = it.rewindTrigger + 1) }
+            }
+            is Outcome.Failure -> showMessage(result.message)
         }
     }
 

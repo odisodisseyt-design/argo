@@ -37,8 +37,8 @@ android {
         vectorDrawables { useSupportLibrary = true }
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "DEFAULT_SERVER_URL", "\"https://v3310666.hosted-by-vdsina.ru\"")
-        buildConfigField("String", "UPDATE_VERSION_URL", "\"https://raw.githubusercontent.com/OWNER/REPO/main/version.json\"")
-        buildConfigField("String", "UPDATE_REPO_URL", "\"https://github.com/OWNER/REPO\"")
+        buildConfigField("String", "UPDATE_VERSION_URL", "\"https://raw.githubusercontent.com/odisodisseyt-design/odisodisseyt-design/text-world-android/main/version.json\"")
+        buildConfigField("String", "UPDATE_REPO_URL", "\"https://github.com/odisodisseyt-design/odisodisseyt-design/text-world-android\"")
     }
 
     signingConfigs {
@@ -89,7 +89,7 @@ dependencies {
     implementation(composeBom)
     androidTestImplementation(composeBom)
 
-    implementation("androidx.core:core-ktx:1.15.1")
+    implementation("androidx.core:core-ktx:1.16.0")
     implementation("androidx.activity:activity-compose:1.9.3")
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")

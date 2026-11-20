@@ -13,7 +13,7 @@ object ApiClient {
     @Volatile
     var baseUrl: String = BuildConfig.DEFAULT_SERVER_URL
 
-    fun setBaseUrl(url: String) {
+    fun updateBaseUrl(url: String) {
         baseUrl = url.trim().trimEnd('/')
     }
 

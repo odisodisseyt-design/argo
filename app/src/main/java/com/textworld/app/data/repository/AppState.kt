@@ -35,6 +35,7 @@ data class AppState(
     val pageTurnTrigger: Int = 0,
     val rewindTrigger: Int = 0,
     val dead: Boolean = false,
+    val levelUpAvailable: Boolean = false,
     val myGames: List<CampaignState> = emptyList(),
     val friends: List<com.textworld.app.data.model.Friend> = emptyList(),
     val onlineUsers: List<com.textworld.app.data.model.PublicUser> = emptyList(),

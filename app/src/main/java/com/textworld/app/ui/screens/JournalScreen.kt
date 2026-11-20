@@ -6,12 +6,13 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.weight
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -54,7 +55,7 @@ private fun JournalRow(entry: JournalEntry, vm: MainViewModel) {
     val colors = LocalBookColors.current
     val typography = LocalBookTypography.current
     val render by vm.renderState.collectAsStateWithLifecycle()
-    val shimmer by androidx.compose.runtime.rememberInfiniteTransition(label = "shimmer").animateFloat(
+    val shimmer by rememberInfiniteTransition(label = "shimmer").animateFloat(
         0.5f, 1f,
         infiniteRepeatable(tween(1_600, easing = LinearEasing), RepeatMode.Reverse),
         label = "shimmer",

@@ -29,6 +29,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.textworld.app.R
 import com.textworld.app.presentation.renderer.PresentationRenderer
 import com.textworld.app.presentation.theme.LocalBookColors
@@ -67,7 +68,7 @@ fun EntryScreen(onOpen: () -> Unit, onLongPressCover: () -> Unit) {
             Text(
                 text = stringResource(R.string.entry_title).uppercase(),
                 color = colors.text.copy(alpha = layer2),
-                style = typography.display.copy(letterSpacing = androidx.compose.ui.unit.sp(8f)),
+                style = typography.display.copy(letterSpacing = 8f.sp),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.drawBehind {
                     drawRect(

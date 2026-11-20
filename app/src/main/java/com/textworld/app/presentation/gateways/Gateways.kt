@@ -39,7 +39,8 @@ class AndroidHapticsGateway(
     override val isAvailable: Boolean,
 ) : HapticsGateway {
     override fun play(profile: String) {
-        if (!isAvailable || vibrator == null) return
+        if (!isAvailable) return
+        val device = vibrator ?: return
         val pattern = when (profile) {
             "soft_tick", "soft_impact" -> longArrayOf(0, 12)
             "heavy_impact" -> longArrayOf(0, 45)
@@ -48,12 +49,12 @@ class AndroidHapticsGateway(
         }
         runCatching {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                vibrator.vibrate(
+                device.vibrate(
                     android.os.VibrationEffect.createWaveform(pattern, -1),
                 )
             } else {
                 @Suppress("DEPRECATION")
-                vibrator.vibrate(pattern, -1)
+                device.vibrate(pattern, -1)
             }
         }
     }

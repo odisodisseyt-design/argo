@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.weight
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -44,6 +43,8 @@ fun AboutScreen(vm: MainViewModel) {
     var status by remember { mutableStateOf("") }
     var info by remember { mutableStateOf<UpdateInfo?>(null) }
     var progress by remember { mutableStateOf(0f) }
+    val noUpdatesText = stringResource(R.string.update_not_available)
+    val checkFailedText = stringResource(R.string.update_check_failed)
 
     Column(Modifier.padding(24.dp)) {
         Row {
@@ -66,9 +67,9 @@ fun AboutScreen(vm: MainViewModel) {
                         is Outcome.Success -> {
                             val available = result.value.versionCode > BuildConfig.VERSION_CODE
                             info = result.value.takeIf { available }
-                            status = if (available) "" else stringResource(R.string.update_not_available)
+                            status = if (available) "" else noUpdatesText
                         }
-                        is Outcome.Failure -> status = stringResource(R.string.update_check_failed)
+                        is Outcome.Failure -> status = checkFailedText
                     }
                 }
             },

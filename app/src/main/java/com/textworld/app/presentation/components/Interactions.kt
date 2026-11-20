@@ -3,6 +3,7 @@ package com.textworld.app.presentation.components
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
@@ -22,7 +23,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.weight
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Button
@@ -66,7 +66,7 @@ fun BreathingActionInput(
 ) {
     val colors = LocalBookColors.current
     val render = LocalRenderState.current
-    val ring by androidx.compose.runtime.rememberInfiniteTransition(label = "ring").animateFloat(
+    val ring by rememberInfiniteTransition(label = "ring").animateFloat(
         0.35f, 1f,
         infiniteRepeatable(tween(1_800, easing = LinearEasing), RepeatMode.Reverse),
         label = "ring",
@@ -156,7 +156,7 @@ fun PageTurnOverlay(trigger: Int, onDone: () -> Unit = {}) {
         Canvas(modifier = Modifier.fillMaxSize()) {
             val x = size.width * p
             drawRect(
-                brush = Brush.horizontalGradient(
+                brush = Brush.linearGradient(
                     colors = listOf(Color.Transparent, Color.Black.copy(alpha = 0.55f)),
                     start = Offset(x - size.width * 0.25f, 0f), end = Offset(x, 0f),
                 ),
@@ -182,7 +182,7 @@ fun RewindEffect(trigger: Int) {
         Canvas(modifier = Modifier.fillMaxSize()) {
             val x = size.width * p
             drawRect(
-                brush = Brush.horizontalGradient(
+                brush = Brush.linearGradient(
                     colors = listOf(Color.Gray.copy(alpha = 0.18f), Color.Transparent),
                     start = Offset(x, 0f), end = Offset(x - size.width * 0.3f, 0f),
                 ),
@@ -227,7 +227,7 @@ fun DeathVeil(visible: Boolean, onRewind: () -> Unit, onBranch: () -> Unit) {
 fun WaitingState(name: String?, frozenStep: Int?) {
     val colors = LocalBookColors.current
     val render = LocalRenderState.current
-    val pulse by androidx.compose.runtime.rememberInfiniteTransition(label = "wait").animateFloat(
+    val pulse by rememberInfiniteTransition(label = "wait").animateFloat(
         0.25f, 0.9f,
         infiniteRepeatable(tween(1_600, easing = LinearEasing), RepeatMode.Reverse),
         label = "wait",
