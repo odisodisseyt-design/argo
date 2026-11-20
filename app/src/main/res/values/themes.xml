@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Edge-to-edge, no plastic action bar. Compose owns all chrome. -->
+    <style name="Theme.TextWorld" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/book_bg</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:enforceNavigationBarContrast">false</item>
+        <item name="android:enforceStatusBarContrast">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <color name="book_bg">#0E0D0B</color>
+    <color name="book_bg_alt">#17130F</color>
+    <color name="book_text">#E8DECC</color>
+    <color name="book_accent">#C9A227</color>
+    <color name="book_muted">#8C8272</color>
+</resources>

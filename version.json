@@ -1,0 +1,11 @@
+{
+  "versionCode": 14,
+  "versionName": "1.4.0",
+  "changelog": [
+    "Новый экран магазина Системы",
+    "Исправлен параллакс"
+  ],
+  "apk_url": "https://github.com/OWNER/REPO/releases/download/v1.4.0/app-release.apk",
+  "sha256": "",
+  "min_client_version": 12
+}

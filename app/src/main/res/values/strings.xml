@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Текстовый Мир</string>
+
+    <!-- Entry / cover -->
+    <string name="entry_title">Текстовый Мир</string>
+    <string name="entry_subtitle">История, которая помнит тебя</string>
+    <string name="entry_open">Открыть книгу</string>
+    <string name="entry_continue">Продолжить историю</string>
+    <string name="entry_settings_hint">Нажми и удерживай обложку, чтобы открыть настройки</string>
+
+    <!-- Login -->
+    <string name="login_title">Войти в мир</string>
+    <string name="login_username">Имя</string>
+    <string name="login_password">Пароль</string>
+    <string name="login_action">Войти</string>
+    <string name="login_register">Создать аккаунт</string>
+    <string name="login_hint">Твой путь начинается здесь</string>
+
+    <!-- Server / health / update -->
+    <string name="book_closed">Книга закрыта</string>
+    <string name="book_closed_body">Мир сейчас недоступен. Подожди немного и попробуй снова.</string>
+    <string name="retry">Попробовать снова</string>
+    <string name="update_required">Нужно обновление</string>
+    <string name="update_required_body">Версия книги устарела. Обнови приложение, чтобы продолжить историю.</string>
+    <string name="update_dialog_title">Доступно обновление</string>
+    <string name="update_size">Размер: %1$s</string>
+    <string name="update">Обновить</string>
+    <string name="check_for_updates">Проверить обновления</string>
+    <string name="update_not_available">Обновлений нет</string>
+    <string name="update_check_failed">Не удалось проверить обновления</string>
+    <string name="update_downloading">Загрузка обновления…</string>
+    <string name="update_verifying">Проверяю подпись…</string>
+    <string name="update_install_permission">Чтобы установить обновление, разреши установку неизвестных приложений в настройках браузера/файлового менеджера.</string>
+    <string name="update_bad_hash">Обновление повреждено. Попробуй ещё раз.</string>
+
+    <!-- Common -->
+    <string name="back">Назад</string>
+    <string name="close">Закрыть</string>
+    <string name="cancel">Отмена</string>
+    <string name="confirm">Подтвердить</string>
+    <string name="save">Сохранить</string>
+    <string name="accept">Принять</string>
+    <string name="reject">Отклонить</string>
+    <string name="empty">Здесь пока пусто</string>
+    <string name="world_did_not_answer">Мир не ответил. Попробуй ещё раз.</string>
+    <string name="not_your_turn">Сейчас не твой ход.</string>
+
+    <!-- Navigation (labels reflect enabled features) -->
+    <string name="nav_scene">Сцена</string>
+    <string name="nav_around">Рядом</string>
+    <string name="nav_book">Книга</string>
+    <string name="nav_inventory">Инвентарь</string>
+    <string name="nav_shop">Магазин Системы</string>
+    <string name="nav_quests">Задания</string>
+    <string name="nav_map">Карта</string>
+    <string name="nav_characters">Персонажи</string>
+    <string name="nav_journal">Дневник</string>
+    <string name="nav_friends">Друзья</string>
+    <string name="nav_saves">Ветки</string>
+    <string name="nav_settings">Настройки</string>
+    <string name="nav_about">О приложении</string>
+
+    <!-- Scene -->
+    <string name="scene_anchor">Якорь сцены</string>
+    <string name="scene_where">Где ты</string>
+    <string name="scene_weather">Погода</string>
+    <string name="scene_visibility">Видимость</string>
+    <string name="scene_elevation">Высота</string>
+    <string name="scene_nearby">Поблизости</string>
+    <string name="scene_input_hint">Что ты делаешь?</string>
+    <string name="scene_send">Отправить</string>
+    <string name="scene_hint_label">Подсказка</string>
+    <string name="scene_waiting_for">Ждём: %1$s</string>
+    <string name="scene_frozen">Мир ждёт. Шаг %1$d сохранён.</string>
+    <string name="scene_party">Отряд</string>
+    <string name="death_line">Здесь история заканчивается</string>
+    <string name="death_rewind">Отмотать</string>
+    <string name="death_branch">Начать ветку</string>
+
+    <!-- Around me -->
+    <string name="around_title">Вокруг тебя</string>
+    <string name="around_north">С</string>
+    <string name="around_south">Ю</string>
+    <string name="around_west">З</string>
+    <string name="around_east">В</string>
+    <string name="around_distance">%1$d м</string>
+    <string name="around_can">Можно</string>
+    <string name="around_cannot">Нельзя</string>
+    <string name="around_height">Высота: %1$s м</string>
+
+    <!-- Book / character -->
+    <string name="book_level">Уровень %1$d</string>
+    <string name="book_xp">Опыт</string>
+    <string name="book_attributes">Атрибуты</string>
+    <string name="book_skills">Навыки</string>
+    <string name="book_statuses">Состояния</string>
+    <string name="book_body">Тело</string>
+    <string name="book_equipment">Экипировка</string>
+    <string name="book_currency">Валюта</string>
+    <string name="book_derived">Производные</string>
+    <string name="book_alive">Жив</string>
+    <string name="book_dead">Мёртв</string>
+
+    <!-- Level up -->
+    <string name="levelup_title">Новый уровень</string>
+    <string name="levelup_left">Осталось: %1$d</string>
+    <string name="levelup_accept">Принять</string>
+    <string name="levelup_discount">Скидка: %1$s</string>
+
+    <!-- Inventory -->
+    <string name="inventory_weight">Вес: %1$s</string>
+    <string name="inventory_slots">Слотов: %1$d</string>
+    <string name="inventory_equip">Надеть</string>
+    <string name="inventory_unequip">Снять</string>
+    <string name="inventory_compare">Сравнить</string>
+    <string name="inventory_durability">Прочность</string>
+
+    <!-- Shop -->
+    <string name="shop_title">Магазин Системы</string>
+    <string name="shop_preview">Предпросмотр</string>
+    <string name="shop_stock">Осталось: %1$d</string>
+    <string name="shop_restock">Пополнение через %1$s</string>
+    <string name="shop_daily_cap">Лимит: %1$d</string>
+    <string name="shop_odds">Шансы: %1$s</string>
+    <string name="shop_pity">Гарантия: %1$d</string>
+    <string name="shop_buy">Купить</string>
+    <string name="shop_tab_consumables">Расходники</string>
+    <string name="shop_tab_equipment">Экипировка</string>
+    <string name="shop_tab_materials">Материалы</string>
+    <string name="shop_tab_skills">Навыки</string>
+    <string name="shop_tab_stats">Атрибуты</string>
+    <string name="shop_tab_services">Услуги</string>
+    <string name="shop_tab_unique">Уникальное</string>
+
+    <!-- Quests / map / characters / journal -->
+    <string name="quests_title">Задания</string>
+    <string name="quests_main">Главные</string>
+    <string name="quests_side">Побочные</string>
+    <string name="quests_system">Системные</string>
+    <string name="map_title">Карта</string>
+    <string name="map_you">Ты здесь</string>
+    <string name="characters_title">Персонажи</string>
+    <string name="journal_title">Дневник</string>
+    <string name="journal_canon">Канон</string>
+    <string name="journal_pending">Ожидает</string>
+    <string name="journal_rejected">Отклонено</string>
+    <string name="journal_accept_canon">Принять в канон</string>
+
+    <!-- Friends -->
+    <string name="friends_title">Друзья и приглашения</string>
+    <string name="friends_online">В сети</string>
+    <string name="friends_my">Мои друзья</string>
+    <string name="friends_my_games">Мои игры</string>
+    <string name="friends_invites">Приглашения</string>
+    <string name="friends_invite">Пригласить</string>
+    <string name="friends_invite_new">Пригласить в новую игру</string>
+    <string name="friends_new_game">Новая история</string>
+    <string name="friends_join">Присоединиться</string>
+    <string name="friends_decline">Отклонить</string>
+
+    <!-- Saves -->
+    <string name="saves_title">Ветки истории</string>
+    <string name="saves_rewind">Отмотать</string>
+    <string name="saves_branch">Сохранить как ветку</string>
+    <string name="saves_switch">Переключиться</string>
+    <string name="saves_current">Текущая</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Настройки</string>
+    <string name="settings_server_url">Адрес сервера</string>
+    <string name="settings_reduce_motion">Уменьшить движение</string>
+    <string name="settings_font_scale">Размер шрифта</string>
+    <string name="settings_theme">Тема</string>
+    <string name="settings_effects">Эффекты</string>
+    <string name="settings_particles">Частицы</string>
+    <string name="settings_parallax">Параллакс</string>
+    <string name="settings_sound">Звук</string>
+    <string name="settings_images">Изображения</string>
+    <string name="settings_haptics">Вибрация</string>
+    <string name="settings_status_glow">Свечение статусов</string>
+    <string name="settings_animations">Анимации</string>
+    <string name="settings_voice">Голос</string>
+    <string name="settings_theme_system">Как в системе</string>
+    <string name="settings_theme_dark">Тёмная</string>
+    <string name="settings_theme_book">Книга</string>
+
+    <!-- About -->
+    <string name="about_title">О приложении</string>
+    <string name="about_version">Версия %1$s (%2$d)</string>
+    <string name="about_licence">Свободное ПО · лицензия MIT</string>
+
+    <!-- Content descriptions -->
+    <string name="cd_book_icon">Книга</string>
+    <string name="cd_send">Отправить действие</string>
+    <string name="cd_breathing_rune">Ожидание хода</string>
+    <string name="cd_decorative">Декоративный элемент</string>
+</resources>

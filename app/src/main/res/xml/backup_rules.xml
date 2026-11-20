@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <!-- The session token is encrypted with a Keystore key that is not backed up;
+         excluding it prevents restoring an undecryptable token. Save games and
+         settings (server URL, toggles) are preserved. -->
+    <exclude domain="sharedpref" path="tw_secure_prefs.xml" />
+</full-backup-content>
