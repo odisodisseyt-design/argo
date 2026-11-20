@@ -1,12 +1,12 @@
 {
-  "versionCode": 16,
-  "versionName": "4.1.2",
+  "versionCode": 17,
+  "versionName": "0.0.4",
   "changelog": [
-    "Исправлена авторизация GET-запросов — список игр теперь загружается",
-    "Добавлено открытие игры по ID",
-    "Синхронизация контракта с сервером"
+    "Версия 0.0.4",
+    "Исправлена авторизация GET-запросов",
+    "Список игр и вход по ID"
   ],
-  "apk_url": "https://github.com/odisodisseyt-design/argo/releases/download/v4.1.2/app-release.apk",
-  "sha256": "ce1e6d0b9dc912447a4c97fc2010ac6f7cc874ad78872ad461e4bc4b3d9733c0",
+  "apk_url": "https://github.com/odisodisseyt-design/argo/releases/download/v0.0.4/app-release.apk",
+  "sha256": "4b9cbbb48405db5405319de18f89ed5d524fa456939acb960dff34c91d24612a",
   "min_client_version": 12
 }
