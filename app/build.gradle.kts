@@ -37,8 +37,8 @@ android {
         vectorDrawables { useSupportLibrary = true }
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "DEFAULT_SERVER_URL", "\"https://v3310666.hosted-by-vdsina.ru\"")
-        buildConfigField("String", "UPDATE_VERSION_URL", "\"https://raw.githubusercontent.com/odisodisseyt-design/odisodisseyt-design/text-world-android/main/version.json\"")
-        buildConfigField("String", "UPDATE_REPO_URL", "\"https://github.com/odisodisseyt-design/odisodisseyt-design/text-world-android\"")
+        buildConfigField("String", "UPDATE_VERSION_URL", "\"https://raw.githubusercontent.com/odisodisseyt-design/text-world-android/main/version.json\"")
+        buildConfigField("String", "UPDATE_REPO_URL", "\"https://github.com/odisodisseyt-design/text-world-android\"")
     }
 
     signingConfigs {
