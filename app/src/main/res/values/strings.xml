@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Текстовый Мир</string>
+    <string name="app_name">Арго</string>
 
     <!-- Entry / cover -->
-    <string name="entry_title">Текстовый Мир</string>
-    <string name="entry_subtitle">История, которая помнит тебя</string>
+    <string name="entry_title">Арго</string>
+    <string name="entry_subtitle">В поисках золотого руна</string>
     <string name="entry_open">Открыть книгу</string>
     <string name="entry_continue">Продолжить историю</string>
     <string name="entry_settings_hint">Нажми и удерживай обложку, чтобы открыть настройки</string>

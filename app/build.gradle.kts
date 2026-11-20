@@ -11,8 +11,8 @@ plugins {
 // Package name and signing key must NEVER change between releases: OTA updates
 // and the saved token/save games live in this application id's data directory.
 val appId = "com.textworld.app"
-val versionCodeValue = 14
-val versionNameValue = "1.4.0"
+val versionCodeValue = 15
+val versionNameValue = "1.4.1"
 
 // A release keystore is read from `keystore.properties` at the project root when
 // present. Until the project owner supplies one we fall back to the debug key so
@@ -37,8 +37,8 @@ android {
         vectorDrawables { useSupportLibrary = true }
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "DEFAULT_SERVER_URL", "\"https://v3310666.hosted-by-vdsina.ru\"")
-        buildConfigField("String", "UPDATE_VERSION_URL", "\"https://raw.githubusercontent.com/odisodisseyt-design/text-world-android/main/version.json\"")
-        buildConfigField("String", "UPDATE_REPO_URL", "\"https://github.com/odisodisseyt-design/text-world-android\"")
+        buildConfigField("String", "UPDATE_VERSION_URL", "\"https://raw.githubusercontent.com/odisodisseyt-design/argo/main/version.json\"")
+        buildConfigField("String", "UPDATE_REPO_URL", "\"https://github.com/odisodisseyt-design/argo\"")
     }
 
     signingConfigs {
