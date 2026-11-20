@@ -3,7 +3,10 @@ package com.textworld.app.data.network
 import com.textworld.app.BuildConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
+import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.request.header
 import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.http.HttpHeaders
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.websocket.WebSockets
 import java.util.concurrent.TimeUnit
@@ -20,6 +23,9 @@ object ApiClient {
     fun url(path: String): String = "$baseUrl$path"
 
     fun create(token: String? = null): HttpClient = HttpClient(OkHttp) {
+        if (!token.isNullOrBlank()) {
+            defaultRequest { header(HttpHeaders.Authorization, "Bearer $token") }
+        }
         engine {
             config {
                 connectTimeout(15, TimeUnit.SECONDS)

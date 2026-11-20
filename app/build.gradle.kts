@@ -11,8 +11,8 @@ plugins {
 // Package name and signing key must NEVER change between releases: OTA updates
 // and the saved token/save games live in this application id's data directory.
 val appId = "com.textworld.app"
-val versionCodeValue = 15
-val versionNameValue = "1.4.1"
+val versionCodeValue = 16
+val versionNameValue = "4.1.2"
 
 // A release keystore is read from `keystore.properties` at the project root when
 // present. Until the project owner supplies one we fall back to the debug key so

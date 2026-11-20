@@ -156,6 +156,8 @@
     <string name="friends_invite">Пригласить</string>
     <string name="friends_invite_new">Пригласить в новую игру</string>
     <string name="friends_new_game">Новая история</string>
+    <string name="games_open_by_id">Открыть игру по ID</string>
+    <string name="games_id_hint">ID игры</string>
     <string name="friends_join">Присоединиться</string>
     <string name="friends_decline">Отклонить</string>
 

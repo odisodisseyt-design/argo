@@ -1,11 +1,12 @@
 {
-  "versionCode": 15,
-  "versionName": "1.4.1",
+  "versionCode": 16,
+  "versionName": "4.1.2",
   "changelog": [
-    "Проект переименован в Argo",
-    "Исправлен адрес проверки обновлений"
+    "Исправлена авторизация GET-запросов — список игр теперь загружается",
+    "Добавлено открытие игры по ID",
+    "Синхронизация контракта с сервером"
   ],
-  "apk_url": "https://github.com/odisodisseyt-design/argo/releases/download/v1.4.1/app-release.apk",
-  "sha256": "a96bac96e8840eeb4c21c280e7f9f6171ec109f70fa0181454b5863cd6fbf25a",
+  "apk_url": "https://github.com/odisodisseyt-design/argo/releases/download/v4.1.2/app-release.apk",
+  "sha256": "ce1e6d0b9dc912447a4c97fc2010ac6f7cc874ad78872ad461e4bc4b3d9733c0",
   "min_client_version": 12
 }

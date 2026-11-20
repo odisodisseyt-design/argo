@@ -40,6 +40,7 @@ fun GamesScreen(vm: MainViewModel) {
     val state by vm.state.collectAsStateWithLifecycle()
     var name by remember { mutableStateOf("Новая история") }
     var pack by remember { mutableStateOf(state.availablePacks.firstOrNull().orEmpty()) }
+    var gameId by remember { mutableStateOf("") }
 
     LaunchedEffect(Unit) { vm.loadGames() }
     LaunchedEffect(state.availablePacks) {
@@ -71,13 +72,24 @@ fun GamesScreen(vm: MainViewModel) {
             }
         }
 
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(12.dp))
         val fieldColors = OutlinedTextFieldDefaults.colors(
             focusedTextColor = colors.text, unfocusedTextColor = colors.text,
             focusedBorderColor = colors.accent, unfocusedBorderColor = colors.muted,
             focusedLabelColor = colors.accent, unfocusedLabelColor = colors.muted,
             cursorColor = colors.accent,
         )
+        OutlinedTextField(
+            value = gameId, onValueChange = { gameId = it },
+            label = { Text(stringResource(R.string.games_id_hint)) },
+            singleLine = true, colors = fieldColors, modifier = Modifier.fillMaxWidth(),
+        )
+        androidx.compose.material3.TextButton(onClick = {
+            if (gameId.isNotBlank()) vm.openCampaign(gameId.trim())
+        }) {
+            Text(stringResource(R.string.games_open_by_id), color = colors.accent)
+        }
+        Spacer(Modifier.height(8.dp))
         OutlinedTextField(
             value = name, onValueChange = { name = it },
             label = { Text(stringResource(R.string.friends_new_game)) },
