@@ -65,7 +65,7 @@ data class ClassSkill(
 data class ClassPerk(
     val id: String = "",
     val name: String = "",
-    val description: String = "",
+    @SerialName("desc") val description: String = "",
     val effect: JsonElement? = null,
 )
 
@@ -79,7 +79,7 @@ data class ClassGear(
 data class ClassEvolution(
     val level: Int = 0,
     val name: String = "",
-    val description: String = "",
+    @SerialName("desc") val description: String = "",
 )
 
 @Serializable
