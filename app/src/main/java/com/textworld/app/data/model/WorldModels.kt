@@ -101,7 +101,7 @@ data class MapNode(
     val x: Float = 0f,
     val y: Float = 0f,
     val visited: Boolean = false,
-    val danger: String = "",
+    val danger: JsonElement? = null,
     val floor: Int = 0,
     val connections: List<String> = emptyList(),
 )
@@ -114,7 +114,7 @@ data class NpcDossier(
     val goals: List<String> = emptyList(),
     val known: List<String> = emptyList(),
     val relations: Map<String, Int> = emptyMap(),
-    val conditions: List<JsonElement> = emptyList(),
+    val conditions: JsonElement? = null,
     val alive: Boolean = true,
     val emotion: String = "neutral",
     val portrait: PortraitHint? = null,

@@ -1,13 +1,14 @@
 {
-  "versionCode": 19,
-  "versionName": "0.0.6",
+  "versionCode": 20,
+  "versionName": "0.0.7",
   "changelog": [
-    "Версия 0.0.6",
-    "Починен список игр: время мира больше не ломает загрузку",
+    "Версия 0.0.7",
+    "Список игр больше не пропадает: карта и NPC не ломают загрузку",
     "Шторка в игре: сохранить, в главное меню, настройки",
-    "Адрес сервера убран из настроек — игроку он не нужен"
+    "Адрес сервера убран из настроек",
+    "Понятная ошибка, если игры не загрузились"
   ],
-  "apk_url": "https://github.com/odisodisseyt-design/argo/releases/download/v0.0.6/app-release.apk",
-  "sha256": "fae2da3236e8d8d4d235ad4bf1e0308d9d1eb0b997f02400f9eae709e6e8105c",
+  "apk_url": "https://github.com/odisodisseyt-design/argo/releases/download/v0.0.7/app-release.apk",
+  "sha256": "540e4eaae7fc7ffb941699a6a556f611027192440d8712f6696d4b74631167cb",
   "min_client_version": 12
 }

@@ -71,8 +71,9 @@ private fun NpcCard(npc: NpcDossier, emotion: String) {
         npc.relations.forEach { (faction, value) ->
             Text("$faction: $value", color = colors.accent, style = typography.caption)
         }
-        npc.conditions.map { readableStatus(it) }.filter { it.isNotBlank() }.forEach {
-            Text(it, color = tint, style = typography.caption)
+        (npc.conditions as? kotlinx.serialization.json.JsonObject)?.forEach { (need, value) ->
+            val label = readableStatus(value)
+            if (label.isNotBlank()) Text("$need: $label", color = tint, style = typography.caption)
         }
     }
 }
