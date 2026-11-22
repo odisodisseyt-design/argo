@@ -1,14 +1,14 @@
 {
-  "versionCode": 23,
-  "versionName": "0.0.10",
+  "versionCode": 24,
+  "versionName": "0.1.0",
   "changelog": [
-    "Версия 0.0.10",
-    "Совместимость с обновлённым сервером: безопасные имена игроков вместо технических ID",
-    "Кнопка хода теперь зависит от права хода, присланного сервером",
-    "Поддержка событий order_submitted и step_resolved",
-    "Сервер: защита от двойного разрешения шага и восстановление после падения"
+    "Версия 0.1.0 — новый клиент на Expo/React Native",
+    "Реальный API вместо демо-экранов: вход, список игр, приказы, история шагов",
+    "Idempotency-Key и заголовки сервера 0.0.11",
+    "События WebSocket с event_id и восстановление после reconnect",
+    "Табы и экраны управляются ui_manifest сервера"
   ],
-  "apk_url": "https://github.com/odisodisseyt-design/argo/releases/download/v0.0.10/app-release.apk",
-  "sha256": "7fe20af294413cf82e1e92927ec6a54a795181a2bf093375b0ccace7b43dda83",
+  "apk_url": "https://github.com/odisodisseyt-design/argo/releases/download/v0.1.0/app-release.apk",
+  "sha256": "e2cd27c67a5a2d07cf48c69570e569867d2e142640d79c84f546b7bab01d0c1b",
   "min_client_version": 12
 }
