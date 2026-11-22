@@ -1,14 +1,14 @@
 {
-  "versionCode": 20,
-  "versionName": "0.0.7",
+  "versionCode": 23,
+  "versionName": "0.0.10",
   "changelog": [
-    "Версия 0.0.7",
-    "Список игр больше не пропадает: карта и NPC не ломают загрузку",
-    "Шторка в игре: сохранить, в главное меню, настройки",
-    "Адрес сервера убран из настроек",
-    "Понятная ошибка, если игры не загрузились"
+    "Версия 0.0.10",
+    "Совместимость с обновлённым сервером: безопасные имена игроков вместо технических ID",
+    "Кнопка хода теперь зависит от права хода, присланного сервером",
+    "Поддержка событий order_submitted и step_resolved",
+    "Сервер: защита от двойного разрешения шага и восстановление после падения"
   ],
-  "apk_url": "https://github.com/odisodisseyt-design/argo/releases/download/v0.0.7/app-release.apk",
-  "sha256": "540e4eaae7fc7ffb941699a6a556f611027192440d8712f6696d4b74631167cb",
+  "apk_url": "https://github.com/odisodisseyt-design/argo/releases/download/v0.0.10/app-release.apk",
+  "sha256": "7fe20af294413cf82e1e92927ec6a54a795181a2bf093375b0ccace7b43dda83",
   "min_client_version": 12
 }

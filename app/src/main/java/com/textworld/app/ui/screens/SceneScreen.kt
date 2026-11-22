@@ -48,7 +48,7 @@ fun SceneScreen(vm: MainViewModel) {
 
     val anchor = state.campaign?.anchor
     val character = state.campaign?.character
-    val notMyTurn = state.waitingFor.isNotEmpty() && !state.waitingFor.contains(state.myUserId)
+    val notMyTurn = !state.myTurn
     val frozen = state.frozenStep != null && state.waitingFor.isNotEmpty()
     val canAct = !notMyTurn && !frozen && !state.dead
 

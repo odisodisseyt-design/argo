@@ -192,6 +192,7 @@ class GameRepository(
                 presentation = campaign.presentation,
                 living = campaign.living,
                 waitingFor = campaign.waitingFor,
+                myTurn = campaign.myTurn,
                 prose = it.prose.ifBlank { campaign.lore },
                 inWorldMessage = null,
                 classSelectionPending = campaign.classSelection.pending,
@@ -254,7 +255,8 @@ class GameRepository(
                 outcome = response.outcomeText.orEmpty(),
                 streaming = false,
                 waitingFor = response.waitingFor,
-                frozenStep = if (response.waitingFor.isNotEmpty()) response.stepNo else null,
+                myTurn = response.myTurn,
+                frozenStep = if (!response.myTurn) response.stepNo else null,
                 pendingDetails = if (details.isNotEmpty()) details else state.pendingDetails,
                 journal = state.journal + details.map { JournalEntry(it.id, it.text, it.source, it.status) }
                     .filter { entry -> state.journal.none { it.id == entry.id } },
@@ -346,15 +348,19 @@ class GameRepository(
                     val payload = event.payload ?: return
                     runCatching { parsePayload<TurnResponse>(payload) }.getOrNull()?.let { applyFinal(it) }
                 }
-                "awaiting_orders", "orders_open" -> {
+                "awaiting_orders", "order_submitted", "orders_open" -> {
                     val obj = runCatching { TwJson.parseToJsonElement(event.payload.orEmpty()) }.getOrNull() as? JsonObject
                     val pending = obj?.get("pending")?.toString()?.removeSurrounding("[", "]")
-                        ?.split(",")?.mapNotNull { it.trim().toIntOrNull() } ?: emptyList()
+                        ?.split(",")?.map { it.trim().removeSurrounding("\"") }
+                        ?.filter { it.isNotEmpty() } ?: emptyList()
                     _state.update {
                         it.copy(waitingFor = pending, frozenStep = null, streaming = false)
                     }
                 }
-                "presence" -> Unit
+                "step_resolved" -> _state.update {
+                    it.copy(streaming = true, frozenStep = it.campaign?.stepNo)
+                }
+                "user_joined", "presence" -> Unit
                 "rollback" -> _state.update { it.copy(rewindTrigger = it.rewindTrigger + 1) }
                 "character_updated" -> {
                     val obj = runCatching { TwJson.parseToJsonElement(event.payload.orEmpty()) }.getOrNull() as? JsonObject
