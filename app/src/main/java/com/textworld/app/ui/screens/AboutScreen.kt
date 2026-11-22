@@ -91,7 +91,7 @@ fun AboutScreen(vm: MainViewModel) {
                     Spacer(Modifier.height(8.dp))
                     if (downloadMb > 0) {
                         Text(
-                            String.format("%.1f / %.1f МБ", downloadMb, totalMb),
+                            String.format(java.util.Locale.forLanguageTag("ru"), "%.1f / %.1f МБ", downloadMb, totalMb),
                             color = colors.muted,
                             style = typography.caption,
                         )
