@@ -34,6 +34,21 @@ PATH=/opt/jdk17/jdk-17.0.21.1+2/bin:$PATH \
 
 APK: `android/app/build/outputs/apk/release/app-release.apk`.
 
+## OTA-обновление (без нового APK)
+
+```sh
+# 1. Собрать JS-бандл и ассеты
+npx expo export --platform android --output-dir dist
+
+# 2. Опубликовать на сервер (только изменённые JS/ассеты)
+node scripts/publish-update.mjs android
+```
+
+Сервер отдаёт манифест по `GET /api/updates/manifest` с заголовками `expo-protocol-version: 1`,
+`expo-platform: android`, `expo-runtime-version: 0.1.1`. Кнопка «Проверить обновление» в
+настройках вызывает `Updates.checkForUpdateAsync()` → `fetchUpdateAsync()` → `reloadAsync()`.
+Полный APK нужен только при изменении нативного кода или версии `runtimeVersion`.
+
 ## Проверка перед публикацией
 
 ```sh

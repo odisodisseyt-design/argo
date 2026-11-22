@@ -1,6 +1,6 @@
 import { credentials } from '@/services/storage/credentials';
 
-const API_URL = process.env.EXPO_PUBLIC_API_URL;
+const API_URL = process.env.EXPO_PUBLIC_API_URL || 'https://v3310666.hosted-by-vdsina.ru';
 export async function apiRequest<T>(path: string, init: RequestInit = {}): Promise<T> {
   if (!API_URL) throw new Error('EXPO_PUBLIC_API_URL is not configured');
   const token = await credentials.get();
