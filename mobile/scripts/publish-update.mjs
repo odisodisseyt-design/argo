@@ -28,8 +28,11 @@ const copy = (relative, name) => {
 const bundleName = path.basename(info.bundle);
 const launchHash = copy(info.bundle, bundleName);
 const assets = [];
+const seen = new Set();
 for (const entry of info.assets) {
   const base = path.basename(entry.path);
+  if (seen.has(base)) continue;
+  seen.add(base);
   const ext = entry.ext || 'bin';
   const name = `${base}.${ext}`;
   const contentType = ext === 'png' ? 'image/png' : ext === 'jpg' || ext === 'jpeg' ? 'image/jpeg'

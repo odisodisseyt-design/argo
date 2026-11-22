@@ -47,7 +47,7 @@ export default function Settings() {
         { text: 'Перезапустить', onPress: () => void Updates.reloadAsync() },
       ]);
     } catch (error: any) {
-      Alert.alert('Не удалось проверить', error?.message || 'Проверь соединение.');
+      Alert.alert('Не удалось проверить', 'Проверь соединение с сервером и попробуй ещё раз.');
     } finally {
       setChecking(false);
     }
