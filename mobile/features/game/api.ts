@@ -66,6 +66,13 @@ export async function logout() {
   await credentials.clear();
 }
 
+export async function allocate(campaignId: string, allocations: Array<{ id: string; delta: number }>) {
+  return apiRequest<{ character: any }>('/api/allocate', {
+    method: 'POST',
+    body: JSON.stringify({ campaign_id: campaignId, allocations }),
+  });
+}
+
 export async function chooseClass(campaignId: string, classId: string) {
   return apiRequest<{ ok: boolean; class: any; character: any }>('/api/class/choose', {
     method: 'POST',
