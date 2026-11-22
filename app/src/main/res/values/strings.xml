@@ -168,6 +168,17 @@
     <string name="saves_switch">Переключиться</string>
     <string name="saves_current">Текущая</string>
 
+    <!-- Class selection -->
+    <string name="class_title">Выбор класса</string>
+    <string name="class_intro">Первый заражённый пал. Доступно %1$d классов — выбери свой путь.</string>
+    <string name="class_all">Все</string>
+    <string name="class_pick">Выбрать</string>
+    <string name="class_confirm">Подтвердить класс</string>
+    <string name="class_hint">Класс — стартовая посылка, а не пожизненная клетка: развитие открывается на уровнях 10 и 20.</string>
+
+    <!-- Skills -->
+    <string name="book_skill_points">Свободные очки навыков: %1$d</string>
+
     <!-- Settings -->
     <string name="settings_title">Настройки</string>
     <string name="settings_server_url">Адрес сервера</string>

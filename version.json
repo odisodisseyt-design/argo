@@ -1,12 +1,15 @@
 {
-  "versionCode": 17,
-  "versionName": "0.0.4",
+  "versionCode": 18,
+  "versionName": "0.0.5",
   "changelog": [
-    "Версия 0.0.4",
-    "Исправлена авторизация GET-запросов",
-    "Список игр и вход по ID"
+    "Версия 0.0.5",
+    "Первый заражённый открывает выбор из 60 классов",
+    "129 классов и развитие на уровнях 10 и 20",
+    "Живой мир: время, погода, расписание NPC, слухи, фракции",
+    "Эпохи E0–E5 и запрет поздних предметов и существ",
+    "Убежище нужно найти, захватить или построить"
   ],
-  "apk_url": "https://github.com/odisodisseyt-design/argo/releases/download/v0.0.4/app-release.apk",
-  "sha256": "4b9cbbb48405db5405319de18f89ed5d524fa456939acb960dff34c91d24612a",
+  "apk_url": "https://github.com/odisodisseyt-design/argo/releases/download/v0.0.5/app-release.apk",
+  "sha256": "ed017fc84a2206c166fbea28716e70f997a63556b2e6c39c302aa2188bfbe8b5",
   "min_client_version": 12
 }

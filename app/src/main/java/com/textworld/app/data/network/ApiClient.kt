@@ -29,8 +29,8 @@ object ApiClient {
         engine {
             config {
                 connectTimeout(15, TimeUnit.SECONDS)
-                readTimeout(30, TimeUnit.SECONDS)
-                writeTimeout(30, TimeUnit.SECONDS)
+                readTimeout(180, TimeUnit.SECONDS)
+                writeTimeout(60, TimeUnit.SECONDS)
                 retryOnConnectionFailure(true)
             }
         }

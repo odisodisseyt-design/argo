@@ -34,6 +34,7 @@ fun OverlayHost(vm: MainViewModel) {
         state.updateRequired || state.overlay == Overlay.UPDATE -> UpdateRequired(vm)
         state.overlay == Overlay.SETTINGS -> Scrim { SettingsScreen(vm) }
         state.overlay == Overlay.ABOUT -> Scrim { AboutScreen(vm) }
+        state.classSelectionPending -> ClassSelectionScreen(vm)
         state.overlay == Overlay.LEVEL_UP -> LevelUpScreen(vm)
         state.overlay == Overlay.SAVES -> Scrim { SavesScreen(vm) }
     }

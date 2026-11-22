@@ -8,7 +8,7 @@ import com.textworld.app.data.model.Presentation
 import com.textworld.app.data.model.UiManifest
 
 enum class RootScreen { ENTRY, LOGIN, GAMES, GAME }
-enum class Overlay { NONE, SETTINGS, ABOUT, UPDATE, LEVEL_UP, FRIENDS, SAVES }
+enum class Overlay { NONE, SETTINGS, ABOUT, UPDATE, LEVEL_UP, FRIENDS, SAVES, CLASS_SELECTION }
 
 data class AppState(
     val root: RootScreen = RootScreen.ENTRY,
@@ -41,4 +41,8 @@ data class AppState(
     val onlineUsers: List<com.textworld.app.data.model.PublicUser> = emptyList(),
     val invites: List<com.textworld.app.data.model.Invite> = emptyList(),
     val availablePacks: List<String> = emptyList(),
+    val living: com.textworld.app.data.model.LivingWorld = com.textworld.app.data.model.LivingWorld(),
+    val classSelectionPending: Boolean = false,
+    val era: String = "E0",
+    val eraName: String = "",
 )

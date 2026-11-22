@@ -134,6 +134,10 @@ class MainViewModel(private val locator: ServiceLocator) : ViewModel() {
     }
 
     fun submit(text: String) = viewModelScope.launch { repository.submit(text) }
+    fun chooseClass(classId: String) = viewModelScope.launch {
+        val result = repository.chooseClass(classId)
+        if (result is Outcome.Success) repository.refreshClasses()
+    }
     fun allocate(allocations: List<Pair<String, Int>>) = viewModelScope.launch { repository.allocate(allocations) }
     fun acceptDetail(id: Int, accept: Boolean) = viewModelScope.launch { repository.acceptDetail(id, accept) }
     fun rewind() = viewModelScope.launch { repository.branchAction("rewind") }

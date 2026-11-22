@@ -35,6 +35,7 @@ import com.textworld.app.data.model.anchorClock
 import com.textworld.app.data.model.anchorCoordinates
 import com.textworld.app.data.model.anchorElevation
 import com.textworld.app.data.model.anchorLocationName
+import com.textworld.app.data.model.LivingWorld
 
 @Composable
 fun SceneScreen(vm: MainViewModel) {
@@ -64,6 +65,12 @@ fun SceneScreen(vm: MainViewModel) {
             conditions = character?.conditions.orEmpty().map { readableStatus(it) },
             statuses = character?.statuses.orEmpty().map { readableStatus(it) },
             statusIcons = state.manifest.statusIcons,
+        )
+
+        LivingStrip(
+            era = state.era,
+            eraName = state.eraName,
+            living = state.living,
         )
 
         Column(
@@ -108,6 +115,44 @@ fun SceneScreen(vm: MainViewModel) {
                 waiting = state.streaming,
                 hint = stringResource(R.string.scene_input_hint),
             )
+        }
+    }
+}
+
+/** Era + living world strip: time, weather, temperature, refuge, rumors. */
+@Composable
+private fun LivingStrip(era: String, eraName: String, living: LivingWorld) {
+    val colors = LocalBookColors.current
+    val typography = LocalBookTypography.current
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .padding(bottom = 6.dp),
+    ) {
+        Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
+            Text(era.ifBlank { "E0" }, color = colors.accent, style = typography.caption)
+            Text(eraName.ifBlank { "" }, color = colors.muted, style = typography.caption)
+            living.weather.let {
+                if (it.isNotBlank()) Text(it, color = colors.muted, style = typography.caption)
+            }
+            living.temperatureC.let {
+                if (it != 0) Text("$it °C", color = colors.muted, style = typography.caption)
+            }
+            living.time["hour"]?.let { h ->
+                Text("%02d:00".format(h), color = colors.muted, style = typography.caption)
+            }
+        }
+        if (living.refuge.status != "none") {
+            Text(
+                "${living.refuge.name} · ур. ${living.refuge.level}",
+                color = colors.accent,
+                style = typography.caption,
+                modifier = Modifier.padding(top = 2.dp),
+            )
+        }
+        val tickers = living.events + living.rumors
+        if (tickers.isNotEmpty()) {
+            Text(tickers.take(2).joinToString(" · "), color = colors.muted, style = typography.caption)
         }
     }
 }

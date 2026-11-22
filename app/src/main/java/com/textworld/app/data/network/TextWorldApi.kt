@@ -4,6 +4,8 @@ import com.textworld.app.core.Outcome
 import com.textworld.app.data.model.AllocateRequest
 import com.textworld.app.data.model.Allocation
 import com.textworld.app.data.model.CampaignState
+import com.textworld.app.data.model.ClassChoiceResponse
+import com.textworld.app.data.model.ClassSelection
 import com.textworld.app.data.model.Friend
 import com.textworld.app.data.model.HealthResponse
 import com.textworld.app.data.model.Invite
@@ -130,6 +132,12 @@ class TextWorldApi(private val tokenProvider: () -> String?) {
 
     suspend fun postSettings(payload: Map<String, Any?>): Outcome<OkResponse> =
         post("/api/settings", jsonBody(*payload.toList().toTypedArray())) { parsePayload(it) }
+
+    suspend fun classes(campaignId: String): Outcome<ClassSelection> =
+        get("/api/classes/$campaignId") { parsePayload(it) }
+
+    suspend fun chooseClass(campaignId: String, classId: String): Outcome<ClassChoiceResponse> =
+        post("/api/class/choose", jsonBody("campaign_id" to campaignId, "class_id" to classId)) { parsePayload(it) }
 
     suspend fun shop(action: String, body: Map<String, Any?>): Outcome<TurnResponse> =
         post("/api/shop/$action", jsonBody(*body.toList().toTypedArray())) { parsePayload(it) }

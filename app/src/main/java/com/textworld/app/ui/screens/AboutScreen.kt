@@ -43,6 +43,8 @@ fun AboutScreen(vm: MainViewModel) {
     var status by remember { mutableStateOf("") }
     var info by remember { mutableStateOf<UpdateInfo?>(null) }
     var progress by remember { mutableStateOf(0f) }
+    var downloadMb by remember { mutableStateOf(0.0) }
+    var totalMb by remember { mutableStateOf(0.0) }
     val noUpdatesText = stringResource(R.string.update_not_available)
     val checkFailedText = stringResource(R.string.update_check_failed)
 
@@ -87,6 +89,13 @@ fun AboutScreen(vm: MainViewModel) {
                 Column {
                     update.changelog.forEach { Text("• $it", color = colors.text, style = typography.proseSmall) }
                     Spacer(Modifier.height(8.dp))
+                    if (downloadMb > 0) {
+                        Text(
+                            String.format("%.1f / %.1f МБ", downloadMb, totalMb),
+                            color = colors.muted,
+                            style = typography.caption,
+                        )
+                    }
                     if (progress > 0f) LinearProgressIndicator(progress = { progress })
                 }
             },
@@ -94,7 +103,11 @@ fun AboutScreen(vm: MainViewModel) {
                 TextButton(onClick = {
                     scope.launch {
                         when (val result = vm.updateRepository.download(update) { downloaded, total ->
-                            if (total > 0) progress = downloaded.toFloat() / total
+                            if (total > 0) {
+                                progress = downloaded.toFloat() / total
+                                downloadMb = downloaded / 1_048_576.0
+                                totalMb = total / 1_048_576.0
+                            }
                         }) {
                             is Outcome.Success -> {
                                 if (!vm.updateRepository.canInstall()) {

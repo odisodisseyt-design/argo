@@ -5,6 +5,7 @@ import com.textworld.app.core.Outcome
 import com.textworld.app.core.getOrNull
 import com.textworld.app.core.map
 import com.textworld.app.data.model.CampaignState
+import com.textworld.app.data.model.ClassEntry
 import com.textworld.app.data.model.JournalEntry
 import com.textworld.app.data.model.PendingDetail
 import com.textworld.app.data.model.Presentation
@@ -170,9 +171,12 @@ class GameRepository(
                 campaign = campaign,
                 manifest = campaign.uiManifest,
                 presentation = campaign.presentation,
+                living = campaign.living,
                 waitingFor = campaign.waitingFor,
                 prose = it.prose.ifBlank { campaign.lore },
                 inWorldMessage = null,
+                classSelectionPending = campaign.classSelection.pending,
+                dead = !campaign.character.alive,
             )
         }
     }
@@ -209,6 +213,9 @@ class GameRepository(
             anchor = response.anchor ?: base.anchor,
             character = response.character ?: base.character,
             presentation = response.presentation ?: base.presentation,
+            living = response.living ?: base.living,
+            classSelection = response.classSelection ?: base.classSelection,
+            era = response.era ?: base.era,
         )
         updated?.let {
             renderer.submit(it.presentation, it.uiManifest, settingsStore.settings.value)
@@ -223,6 +230,7 @@ class GameRepository(
             state.copy(
                 campaign = updated ?: state.campaign,
                 presentation = response.presentation ?: state.presentation,
+                living = updated?.living ?: state.living,
                 prose = prose,
                 outcome = response.outcomeText.orEmpty(),
                 streaming = false,
@@ -234,9 +242,43 @@ class GameRepository(
                 dead = updated?.character?.alive == false,
                 levelUpAvailable = (updated?.character?.unspentPoints ?: 0) > 0 ||
                     updated?.character?.pendingLevelUp == true,
+                classSelectionPending = updated?.classSelection?.pending == true,
             )
         }
         haptics.play(renderer.state.value.haptic)
+    }
+
+    suspend fun chooseClass(classId: String): Outcome<ClassEntry> {
+        val id = activeCampaignId ?: return Outcome.Failure(IllegalStateException("no campaign"), "")
+        return when (val result = api.chooseClass(id, classId)) {
+            is Outcome.Failure -> result
+            is Outcome.Success -> {
+                val body = result.value
+                if (!body.ok) {
+                    Outcome.Failure(IllegalStateException("class"), body.message ?: "Этот класс пока недоступен.")
+                } else {
+                    _state.update { state ->
+                        val campaign = state.campaign?.copy(character = body.character)
+                        state.copy(
+                            campaign = campaign,
+                            classSelectionPending = false,
+                            levelUpAvailable = body.character.unspentPoints > 0 || body.character.pendingLevelUp,
+                        )
+                    }
+                    Outcome.Success(body.`class`)
+                }
+            }
+        }
+    }
+
+    suspend fun refreshClasses() {
+        val id = activeCampaignId ?: return
+        val result = api.classes(id)
+        if (result is Outcome.Success) {
+            _state.update { state ->
+                state.copy(campaign = state.campaign?.copy(classSelection = result.value))
+            }
+        }
     }
 
     suspend fun allocate(allocations: List<Pair<String, Int>>): Outcome<Unit> {
@@ -301,7 +343,22 @@ class GameRepository(
                         runCatching { TwJson.decodeFromString<com.textworld.app.data.model.Character>(it.toString()) }.getOrNull()
                     }
                     if (character != null) _state.update { s ->
-                        s.copy(campaign = s.campaign?.copy(character = character))
+                        s.copy(
+                            campaign = s.campaign?.copy(character = character),
+                            classSelectionPending = character.pendingClassSelection,
+                        )
+                    }
+                }
+                "class_chosen" -> {
+                    val obj = runCatching { TwJson.parseToJsonElement(event.payload.orEmpty()) }.getOrNull() as? JsonObject
+                    val character = obj?.get("character")?.let {
+                        runCatching { TwJson.decodeFromString<com.textworld.app.data.model.Character>(it.toString()) }.getOrNull()
+                    }
+                    if (character != null) _state.update { s ->
+                        s.copy(
+                            campaign = s.campaign?.copy(character = character),
+                            classSelectionPending = false,
+                        )
                     }
                 }
                 "error" -> {

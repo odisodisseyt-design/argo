@@ -62,6 +62,14 @@ fun BookScreen(vm: MainViewModel) {
                     color = colors.accent,
                     style = typography.prose,
                 )
+                if (character.className.isNotBlank()) {
+                    Spacer(Modifier.width(10.dp))
+                    Text(
+                        character.className,
+                        color = colors.text,
+                        style = typography.prose,
+                    )
+                }
                 Spacer(Modifier.weight(1f))
                 Text(
                     if (character.alive) stringResource(R.string.book_alive) else stringResource(R.string.book_dead),
@@ -124,6 +132,19 @@ fun BookScreen(vm: MainViewModel) {
                     }
                     character?.derived?.forEach { (k, v) ->
                         Text("$k: $v", color = colors.muted, style = typography.caption)
+                    }
+                    character?.perks.orEmpty().forEach { perk ->
+                        val name = readableStatus(perk)
+                        if (name.isNotBlank()) {
+                            Text("◆ $name", color = colors.accent, style = typography.caption)
+                        }
+                    }
+                    if ((character?.skillPoints ?: 0) > 0) {
+                        Text(
+                            stringResource(R.string.book_skill_points, character?.skillPoints ?: 0),
+                            color = colors.muted,
+                            style = typography.caption,
+                        )
                     }
                 }
                 BookTab.SKILLS -> {

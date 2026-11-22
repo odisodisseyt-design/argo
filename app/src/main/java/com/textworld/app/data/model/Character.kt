@@ -27,6 +27,12 @@ data class Character(
     @SerialName("pending_level_up") val pendingLevelUp: Boolean = false,
     val alive: Boolean = true,
     val location: String = "",
+    @SerialName("class_id") val classId: String = "",
+    @SerialName("class_name") val className: String = "",
+    @SerialName("class_category") val classCategory: String = "",
+    val perks: List<JsonElement> = emptyList(),
+    @SerialName("skill_points") val skillPoints: Int = 0,
+    @SerialName("pending_class_selection") val pendingClassSelection: Boolean = false,
 )
 
 @Serializable

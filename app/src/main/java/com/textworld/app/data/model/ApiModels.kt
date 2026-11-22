@@ -33,6 +33,12 @@ data class CampaignState(
     val npcs: List<NpcDossier> = emptyList(),
     val journal: List<JournalEntry> = emptyList(),
     @SerialName("shop_items") val shopItems: List<Item> = emptyList(),
+    val era: String = "E0",
+    @SerialName("era_name") val eraName: String = "",
+    @SerialName("class_selection") val classSelection: ClassSelection = ClassSelection(),
+    val living: LivingWorld = LivingWorld(),
+    val refuge: RefugeState = RefugeState(),
+    val knowledge: List<String> = emptyList(),
 )
 
 /**
@@ -59,6 +65,9 @@ data class TurnResponse(
     val warnings: List<String> = emptyList(),
     val event: JsonElement? = null,
     @SerialName("next_step") val nextStep: Int = 0,
+    val living: LivingWorld? = null,
+    @SerialName("class_selection") val classSelection: ClassSelection? = null,
+    val era: String? = null,
 )
 
 @Serializable
