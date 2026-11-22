@@ -143,6 +143,11 @@ class MainViewModel(private val locator: ServiceLocator) : ViewModel() {
     fun rewind() = viewModelScope.launch { repository.branchAction("rewind") }
     fun saveBranch() = viewModelScope.launch { repository.branchAction("save") }
     fun switchBranch(id: String) = viewModelScope.launch { repository.branchAction("switch", id) }
+    fun exitToMenu() {
+        realtimeJob?.cancel()
+        repository.exitToMenu()
+    }
+
     fun dismissMessage() = repository.clearMessage()
     fun setOverlay(overlay: Overlay) = repository.setOverlay(overlay)
     fun setRoot(root: RootScreen) = repository.setRoot(root)

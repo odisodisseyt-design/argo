@@ -138,8 +138,8 @@ private fun LivingStrip(era: String, eraName: String, living: LivingWorld) {
             living.temperatureC.let {
                 if (it != 0) Text("$it °C", color = colors.muted, style = typography.caption)
             }
-            living.time["hour"]?.let { h ->
-                Text("%02d:00".format(h), color = colors.muted, style = typography.caption)
+            if (living.time.hour > 0) {
+                Text("%02d:00".format(living.time.hour), color = colors.muted, style = typography.caption)
             }
         }
         if (living.refuge.status != "none") {

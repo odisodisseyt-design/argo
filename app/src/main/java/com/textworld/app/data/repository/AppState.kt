@@ -37,6 +37,7 @@ data class AppState(
     val dead: Boolean = false,
     val levelUpAvailable: Boolean = false,
     val myGames: List<CampaignState> = emptyList(),
+    val gamesError: String = "",
     val friends: List<com.textworld.app.data.model.Friend> = emptyList(),
     val onlineUsers: List<com.textworld.app.data.model.PublicUser> = emptyList(),
     val invites: List<com.textworld.app.data.model.Invite> = emptyList(),

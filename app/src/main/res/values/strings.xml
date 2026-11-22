@@ -179,9 +179,16 @@
     <!-- Skills -->
     <string name="book_skill_points">Свободные очки навыков: %1$d</string>
 
+    <!-- In-game drawer -->
+    <string name="menu_title">Меню</string>
+    <string name="menu_subtitle">История идёт, пока ты в ней.</string>
+    <string name="menu_save">Сохранить</string>
+    <string name="menu_main">В главное меню</string>
+    <string name="menu_settings">Настройки</string>
+    <string name="menu_close">Закрыть</string>
+
     <!-- Settings -->
     <string name="settings_title">Настройки</string>
-    <string name="settings_server_url">Адрес сервера</string>
     <string name="settings_reduce_motion">Уменьшить движение</string>
     <string name="settings_font_scale">Размер шрифта</string>
     <string name="settings_theme">Тема</string>

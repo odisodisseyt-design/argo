@@ -8,7 +8,7 @@ import kotlinx.serialization.json.JsonElement
 data class LivingWorld(
     val era: String = "E0",
     @SerialName("era_name") val eraName: String = "",
-    val time: Map<String, Int> = emptyMap(),
+    val time: WorldTime = WorldTime(),
     val weather: String = "",
     @SerialName("temperature_c") val temperatureC: Int = 0,
     val season: String = "",
@@ -18,6 +18,13 @@ data class LivingWorld(
     val factions: List<FactionState> = emptyList(),
     val npcs: List<LivingNpc> = emptyList(),
     val refuge: RefugeState = RefugeState(),
+)
+
+@Serializable
+data class WorldTime(
+    val day: Int = 0,
+    val hour: Int = 0,
+    val weather: String = "",
 )
 
 @Serializable

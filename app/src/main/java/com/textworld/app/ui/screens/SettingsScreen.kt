@@ -8,17 +8,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -38,28 +33,12 @@ fun SettingsScreen(vm: MainViewModel) {
     val colors = LocalBookColors.current
     val typography = LocalBookTypography.current
     val manifest = state.manifest
-    var url by remember(settings.serverUrl) { mutableStateOf(settings.serverUrl) }
-
     Column(Modifier.verticalScroll(rememberScrollState()).padding(24.dp)) {
         Row {
             ScreenTitle(stringResource(R.string.settings_title), modifier = Modifier.weight(1f))
             TextButton(onClick = { vm.setOverlay(Overlay.NONE) }) { Text(stringResource(R.string.close), color = colors.muted) }
         }
         Spacer(Modifier.height(12.dp))
-
-        val fieldColors = OutlinedTextFieldDefaults.colors(
-            focusedTextColor = colors.text, unfocusedTextColor = colors.text,
-            focusedBorderColor = colors.accent, unfocusedBorderColor = colors.muted,
-            focusedLabelColor = colors.accent, unfocusedLabelColor = colors.muted, cursorColor = colors.accent,
-        )
-        OutlinedTextField(
-            value = url, onValueChange = { url = it },
-            label = { Text(stringResource(R.string.settings_server_url)) },
-            singleLine = true, colors = fieldColors, modifier = Modifier.fillMaxWidth(),
-        )
-        TextButton(onClick = { vm.updateSettings { it.copy(serverUrl = url.trim()) } }) {
-            Text(stringResource(R.string.save), color = colors.accent)
-        }
 
         Toggle(stringResource(R.string.settings_reduce_motion), settings.reduceMotion) {
             vm.updateSettings { it.copy(reduceMotion = it.reduceMotion.not()) }

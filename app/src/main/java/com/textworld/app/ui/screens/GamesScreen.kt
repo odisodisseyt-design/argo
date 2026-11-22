@@ -68,7 +68,13 @@ fun GamesScreen(vm: MainViewModel) {
                 )
             }
             if (state.myGames.isEmpty()) {
-                item { Text(stringResource(R.string.empty), color = colors.muted, style = typography.caption) }
+                item {
+                    Text(
+                        state.gamesError.ifBlank { stringResource(R.string.empty) },
+                        color = if (state.gamesError.isBlank()) colors.muted else androidx.compose.ui.graphics.Color(0xFFB45A4A),
+                        style = typography.caption,
+                    )
+                }
             }
         }
 

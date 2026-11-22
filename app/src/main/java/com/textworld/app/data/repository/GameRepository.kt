@@ -55,6 +55,25 @@ class GameRepository(
     fun setRoot(root: com.textworld.app.data.repository.RootScreen) = _state.update {
         it.copy(root = root, pageTurnTrigger = it.pageTurnTrigger + 1)
     }
+    fun exitToMenu() {
+        activeCampaignId = null
+        _state.update {
+            it.copy(
+                root = com.textworld.app.data.repository.RootScreen.GAMES,
+                campaign = null,
+                prose = "",
+                outcome = "",
+                waitingFor = emptyList(),
+                waitingName = null,
+                frozenStep = null,
+                streaming = false,
+                classSelectionPending = false,
+                dead = false,
+                levelUpAvailable = false,
+            )
+        }
+    }
+
     fun setOverlay(overlay: com.textworld.app.data.repository.Overlay) = _state.update { it.copy(overlay = overlay) }
     fun clearMessage() = _state.update { it.copy(inWorldMessage = null) }
 
@@ -375,8 +394,14 @@ class GameRepository(
     }
 
     suspend fun loadGames() {
-        val campaigns = api.myCampaigns().getOrNull().orEmpty()
-        _state.update { it.copy(myGames = campaigns) }
+        when (val result = api.myCampaigns()) {
+            is Outcome.Failure -> _state.update {
+                it.copy(gamesError = result.message.ifBlank { "Не удалось загрузить игры. Попробуй ещё раз." })
+            }
+            is Outcome.Success -> _state.update {
+                it.copy(myGames = result.value, gamesError = "")
+            }
+        }
     }
 
     suspend fun loadSocial() {

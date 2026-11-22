@@ -1,15 +1,13 @@
 {
-  "versionCode": 18,
-  "versionName": "0.0.5",
+  "versionCode": 19,
+  "versionName": "0.0.6",
   "changelog": [
-    "Версия 0.0.5",
-    "Первый заражённый открывает выбор из 60 классов",
-    "129 классов и развитие на уровнях 10 и 20",
-    "Живой мир: время, погода, расписание NPC, слухи, фракции",
-    "Эпохи E0–E5 и запрет поздних предметов и существ",
-    "Убежище нужно найти, захватить или построить"
+    "Версия 0.0.6",
+    "Починен список игр: время мира больше не ломает загрузку",
+    "Шторка в игре: сохранить, в главное меню, настройки",
+    "Адрес сервера убран из настроек — игроку он не нужен"
   ],
-  "apk_url": "https://github.com/odisodisseyt-design/argo/releases/download/v0.0.5/app-release.apk",
-  "sha256": "8985b49fc90efd6e42f4fb673ef35cf6905c380b06729facdb12c772711e1bf1",
+  "apk_url": "https://github.com/odisodisseyt-design/argo/releases/download/v0.0.6/app-release.apk",
+  "sha256": "fae2da3236e8d8d4d235ad4bf1e0308d9d1eb0b997f02400f9eae709e6e8105c",
   "min_client_version": 12
 }
