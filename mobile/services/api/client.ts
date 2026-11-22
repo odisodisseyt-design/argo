@@ -19,10 +19,24 @@ export async function apiRequest<T>(path: string, init: RequestInit = {}): Promi
   }
   if (!response.ok) {
     const body = await response.json().catch(() => ({}));
-    const detail = typeof body.detail === 'string' ? body.detail : '';
-    throw Object.assign(new Error(body.message || detail || 'Сервер временно недоступен.'), {
+    throw Object.assign(new Error('Не удалось выполнить действие. Попробуй ещё раз.'), {
       status: response.status, body
     });
   }
-  return response.json() as Promise<T>;
+  const body = await response.json().catch(() => ({}));
+  if (body && typeof body === 'object' && 'error' in body) {
+    const safe: Record<string, string> = {
+      INVALID: 'Неверный логин или пароль.',
+      ALREADY_EXISTS: 'Такой аккаунт уже есть.',
+      NOT_IN_CAMPAIGN: 'Игра не найдена.',
+      STEP_CHANGED: 'Шаг изменился. Попробуй ещё раз.',
+      TEXT_TOO_LONG: 'Приказ слишком длинный.',
+      RATE_LIMITED: 'Слишком много действий. Подожди немного.',
+    };
+    const code = String((body as any).error || '');
+    throw Object.assign(new Error(safe[code] || 'Не удалось выполнить действие.'), {
+      status: response.status, body,
+    });
+  }
+  return body as T;
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, TextInput, StyleSheet, Alert } from 'react-native';
+import { View, Pressable, TextInput, Modal, ScrollView, StyleSheet, Alert } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Send, Clock3, Backpack, MapPin, BookOpen, ScrollText, ShoppingBag, MessageCircle, UserRound } from 'lucide-react-native';
@@ -11,8 +11,9 @@ import { Panel } from '@/components/ui/Panel';
 import { ActionButton } from '@/components/ui/ActionButton';
 import { PhaseBadge } from '@/components/ui/PhaseBadge';
 import { usePalette } from '@/theme/usePalette';
-import { campaign, events, stepStatus, steps, submitTurn } from '@/features/game/api';
+import { campaign, chooseClass, events, stepStatus, steps, submitTurn } from '@/features/game/api';
 import { useGame } from '@/features/game/store';
+import { usePreferences } from '@/store/preferences';
 import { createCampaignSocket } from '@/services/ws/campaignSocket';
 import type { CampaignPhase } from '@/types/api';
 
@@ -20,12 +21,20 @@ export default function CampaignScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const queryClient = useQueryClient();
   const setActive = useGame((s) => s.setActiveCampaign);
+  const hapticsEnabled = usePreferences((s) => s.haptics);
   const p = usePalette();
   const [command, setCommand] = useState('');
   const [resolving, setResolving] = useState(false);
+  const resolvingTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [error, setError] = useState<string | null>(null);
   const keyRef = useRef<string>('');
   const lastSeqRef = useRef<number>(0);
+
+  const markResolving = () => {
+    setResolving(true);
+    if (resolvingTimer.current) clearTimeout(resolvingTimer.current);
+    resolvingTimer.current = setTimeout(() => setResolving(false), 900);
+  };
 
   useEffect(() => {
     if (!id) return;
@@ -47,8 +56,8 @@ export default function CampaignScreen() {
     const applyEvent = (event: string, payload: any, seq?: number) => {
       if (seq && seq <= lastSeqRef.current) return;
       if (seq) lastSeqRef.current = seq;
-      if (event === 'step_resolved') setResolving(true);
-      if (event === 'turn_final') setResolving(false);
+      if (event === 'step_resolved') markResolving();
+      if (event === 'turn_final' || event === 'orders_open') setResolving(false);
       if (event === 'order_timeout' && payload?.prose) setError(payload.prose);
       if (event === 'rollback') refresh();
       refresh();
@@ -81,11 +90,24 @@ export default function CampaignScreen() {
       keyRef.current = '';
       setCommand('');
       setError(null);
-      void Haptics.selectionAsync();
+      if (hapticsEnabled) void Haptics.selectionAsync();
       void queryClient.invalidateQueries({ queryKey: ['step', id] });
       void queryClient.invalidateQueries({ queryKey: ['campaign', id] });
     },
     onError: (error: any) => Alert.alert('Приказ не принят', error?.message || 'Повтори попытку.'),
+  });
+
+  useEffect(() => () => {
+    if (resolvingTimer.current) clearTimeout(resolvingTimer.current);
+  }, []);
+
+  const pickClass = useMutation({
+    mutationFn: (classId: string) => chooseClass(id, classId),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['campaign', id] });
+      await queryClient.invalidateQueries({ queryKey: ['step', id] });
+    },
+    onError: (error: any) => Alert.alert('Не получилось', error?.message || 'Попробуй ещё раз.'),
   });
 
   const phase: CampaignPhase = resolving
@@ -160,13 +182,35 @@ export default function CampaignScreen() {
       <AppText variant="heading">Быстрый доступ</AppText>
       <View style={styles.grid}>
         {nav.map(([label, Icon, path]) => (
-          <View key={label} style={[styles.tile, { backgroundColor: p.surface, borderColor: p.border }]}>
+          <Pressable
+            key={label}
+            onPress={() => router.push(path as any)}
+            style={[styles.tile, { backgroundColor: p.surface, borderColor: p.border }]}
+          >
             <Icon size={18} color={p.accent} />
             <AppText variant="muted">{label}</AppText>
-          </View>
+          </Pressable>
         ))}
       </View>
       <ActionButton title="В главное меню" secondary onPress={() => router.replace('/(main)')} />
+
+      <Modal visible={Boolean(game.data?.class_selection?.pending)} transparent animationType="fade">
+        <View style={{ flex: 1, justifyContent: 'center', backgroundColor: '#000b', padding: 18 }}>
+          <Panel style={{ maxHeight: '80%' }}>
+            <AppText variant="heading">Выбери класс</AppText>
+            <AppText variant="muted">Первый заражённый пал. Система открыла список путей.</AppText>
+            <ScrollView>
+              {(game.data?.class_selection?.offers || []).map((offer: any) => (
+                <Pressable key={offer.id} onPress={() => pickClass.mutate(offer.id)} style={{ paddingVertical: 10 }}>
+                  <AppText variant="heading" style={{ color: offer.color || p.accent }}>{offer.name}</AppText>
+                  <AppText variant="muted">{offer.category_name} · {offer.role}</AppText>
+                  <AppText variant="muted">{offer.description}</AppText>
+                </Pressable>
+              ))}
+            </ScrollView>
+          </Panel>
+        </View>
+      </Modal>
     </Screen>
   );
 }

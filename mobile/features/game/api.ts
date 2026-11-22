@@ -66,6 +66,20 @@ export async function logout() {
   await credentials.clear();
 }
 
+export async function chooseClass(campaignId: string, classId: string) {
+  return apiRequest<{ ok: boolean; class: any; character: any }>('/api/class/choose', {
+    method: 'POST',
+    body: JSON.stringify({ campaign_id: campaignId, class_id: classId }),
+  });
+}
+
+export async function deleteCampaign(id: string) {
+  return apiRequest<{ ok: boolean }>('/api/campaign/delete', {
+    method: 'POST',
+    body: JSON.stringify({ campaign_id: id }),
+  });
+}
+
 export async function myCampaigns() {
   return apiRequest<{ campaigns: GameState[] }>('/api/campaigns/mine');
 }

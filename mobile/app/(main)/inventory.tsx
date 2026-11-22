@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet, Pressable } from 'react-native';
 import { Screen } from '@/components/ui/Screen';
 import { TopBar } from '@/components/ui/TopBar';
 import { AppText } from '@/components/ui/Text';
@@ -10,11 +10,15 @@ import { useCurrentGame } from '@/features/game/useCurrentGame';
 export default function Inventory() {
   const p = usePalette();
   const { data } = useCurrentGame();
-  const items = data?.character?.inventory || [];
+  const [expanded, setExpanded] = useState(false);
+  const items = [...(data?.character?.inventory || [])].sort((a: any, b: any) =>
+    String(a.name || '').localeCompare(String(b.name || ''), 'ru'));
   const equipment = data?.character?.equipment || {};
+  const visible = expanded ? items : items.slice(0, 8);
+
   return (
     <Screen>
-      <TopBar title="Инвентарь" />
+      <TopBar title="Инвентарь" eyebrow={`${items.length} предметов`} />
       <Panel>
         <AppText variant="label" style={{ color: p.accent }}>СНАРЯЖЕНИЕ</AppText>
         {Object.entries(equipment).length ? Object.entries(equipment).map(([slot, item]) => (
@@ -23,7 +27,7 @@ export default function Inventory() {
       </Panel>
       <AppText variant="heading">Предметы · {items.length}</AppText>
       <View style={s.grid}>
-        {items.map((item: any) => (
+        {visible.map((item: any) => (
           <Panel key={item.id} style={s.item}>
             <AppText variant="heading">{item.name}</AppText>
             <AppText variant="muted">{item.quantity || 1} шт · {item.weight_kg || 0} кг</AppText>
@@ -31,6 +35,16 @@ export default function Inventory() {
         ))}
         {!items.length && <AppText variant="muted">В инвентаре пока пусто.</AppText>}
       </View>
+      {items.length > 8 && (
+        <Pressable onPress={() => setExpanded(!expanded)}>
+          <Panel>
+            <AppText style={{ color: p.accent, textAlign: 'center' }}>
+              {expanded ? 'Свернуть' : `Показать ещё ${items.length - 8}`}
+            </AppText>
+          </Panel>
+        </Pressable>
+      )}
+      <AppText variant="muted">Состав инвентаря приходит от сервера. Клиент не меняет предметы сам.</AppText>
     </Screen>
   );
 }

@@ -3,7 +3,7 @@
     "name": "ARGO",
     "slug": "argo-mobile",
     "scheme": "argo",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "runtimeVersion": { "policy": "appVersion" },
     "updates": {
       "url": "https://v3310666.hosted-by-vdsina.ru/api/updates/manifest",
@@ -20,7 +20,7 @@
     },
     "android": {
       "package": "org.argo.rpg",
-      "versionCode": 25,
+      "versionCode": 26,
       "adaptiveIcon": {
         "backgroundColor": "#090D14"
       }

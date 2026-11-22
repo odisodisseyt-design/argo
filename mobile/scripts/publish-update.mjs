@@ -9,7 +9,11 @@ const dist = path.join(root, 'dist');
 const meta = JSON.parse(fs.readFileSync(path.join(dist, 'metadata.json'), 'utf8'));
 const platform = process.argv[2] || 'android';
 const info = meta.fileMetadata[platform];
-const runtimeVersion = process.env.TW_RUNTIME_VERSION || '0.1.1';
+const appConfig = JSON.parse(fs.readFileSync(path.join(root, 'app.json'), 'utf8'));
+const runtimeVersion = process.env.TW_RUNTIME_VERSION ||
+  (appConfig.expo.runtimeVersion && appConfig.expo.runtimeVersion.policy === 'appVersion'
+    ? appConfig.expo.version
+    : String(appConfig.expo.runtimeVersion || appConfig.expo.version));
 const baseUrl = process.env.TW_UPDATE_BASE_URL || 'https://v3310666.hosted-by-vdsina.ru';
 const target = process.env.TW_UPDATES_DIR || '/root/text-world/data/updates';
 const assetsDir = path.join(target, 'assets');

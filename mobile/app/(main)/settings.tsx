@@ -83,14 +83,11 @@ export default function Settings() {
         </View>
       </Panel>
       <Panel>
-        {(['haptics', 'sound', 'illustrations'] as const).map((k) => (
-          <Pressable key={k} onPress={() => toggle(k)} style={s.row}>
-            <AppText>{k === 'haptics' ? 'Тактильная отдача' : k === 'sound' ? 'Звуковые эффекты' : 'Иллюстрации'}</AppText>
-            <AppText style={{ color: (k === 'haptics' ? haptics : true) ? p.success : p.muted }}>
-              {(k === 'haptics' ? haptics : true) ? 'ВКЛ' : 'ВЫКЛ'}
-            </AppText>
-          </Pressable>
-        ))}
+        <Pressable onPress={() => toggle('haptics')} style={s.row}>
+          <AppText>Тактильная отдача</AppText>
+          <AppText style={{ color: haptics ? p.success : p.muted }}>{haptics ? 'ВКЛ' : 'ВЫКЛ'}</AppText>
+        </Pressable>
+        <AppText variant="muted">Звук и иллюстрации появятся вместе с медиа-паком.</AppText>
       </Panel>
       <Panel>
         <AppText variant="heading">Обновление</AppText>

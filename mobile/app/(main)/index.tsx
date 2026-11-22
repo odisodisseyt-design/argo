@@ -10,7 +10,7 @@ import { Panel } from '@/components/ui/Panel';
 import { ActionButton } from '@/components/ui/ActionButton';
 import { PhaseBadge } from '@/components/ui/PhaseBadge';
 import { usePalette } from '@/theme/usePalette';
-import { campaign, myCampaigns, models, newCampaign } from '@/features/game/api';
+import { campaign, deleteCampaign, myCampaigns, models, newCampaign } from '@/features/game/api';
 import { useGame } from '@/features/game/store';
 import { logout } from '@/features/game/api';
 import type { CampaignPhase } from '@/types/api';
@@ -24,6 +24,13 @@ export default function HomeScreen() {
 
   const games = useQuery({ queryKey: ['campaigns'], queryFn: myCampaigns });
   const availableModels = useQuery({ queryKey: ['models'], queryFn: models });
+  const remove = useMutation({
+    mutationFn: (id: string) => deleteCampaign(id),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['campaigns'] });
+    },
+    onError: (error: any) => Alert.alert('Не удалось удалить', error?.message || 'Попробуй ещё раз.'),
+  });
   const create = useMutation({
     mutationFn: () => newCampaign(name, availableModels.data?.models[0]?.id || 'fast'),
     onSuccess: async (result) => {
@@ -82,16 +89,23 @@ export default function HomeScreen() {
 
       <AppText variant="heading">Мои кампании</AppText>
       {list.map((c) => (
-        <Pressable key={c.id} onPress={() => open(c.id)}>
-          <Panel style={styles.campaignRow}>
-            <View style={{ flex: 1, gap: 5 }}>
-              <AppText variant="heading">{c.name}</AppText>
-              <AppText variant="muted">Шаг {c.step_no} · фаза {c.phase}</AppText>
-              <PhaseBadge phase={c.phase as CampaignPhase} />
-            </View>
-            <ArrowRight color={p.muted} />
-          </Panel>
-        </Pressable>
+        <Panel key={c.id} style={styles.campaignRow}>
+          <Pressable onPress={() => open(c.id)} style={{ flex: 1, gap: 5 }}>
+            <AppText variant="heading">{c.name}</AppText>
+            <AppText variant="muted">Шаг {c.step_no} · фаза {c.phase}</AppText>
+            <PhaseBadge phase={c.phase as CampaignPhase} />
+          </Pressable>
+          <Pressable
+            onPress={() => Alert.alert('Удалить игру?', `«${c.name}» будет убрана из твоего списка.`, [
+              { text: 'Отмена' },
+              { text: 'Удалить', style: 'destructive', onPress: () => remove.mutate(c.id) },
+            ])}
+            hitSlop={10}
+          >
+            <AppText style={{ color: p.muted, fontSize: 20 }}>✕</AppText>
+          </Pressable>
+          <ArrowRight color={p.muted} />
+        </Panel>
       ))}
 
       <Panel>
