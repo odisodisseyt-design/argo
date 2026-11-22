@@ -98,7 +98,7 @@ export default function Settings() {
         <ActionButton title={checking ? 'Проверяем…' : 'Проверить обновление'} onPress={checkUpdate} />
       </Panel>
       <ActionButton title="Выйти из аккаунта" secondary onPress={async () => { await logout(); router.replace('/(auth)/login'); }} />
-      <AppText variant="muted">ARGO · Open Source · версия 0.1.1</AppText>
+      <AppText variant="muted">ARGO · Open Source · версия 0.1.1 · OTA активен</AppText>
     </Screen>
   );
 }

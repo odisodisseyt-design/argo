@@ -1,14 +1,13 @@
 {
-  "versionCode": 24,
-  "versionName": "0.1.0",
+  "versionCode": 25,
+  "versionName": "0.1.1",
   "changelog": [
-    "Версия 0.1.0 — новый клиент на Expo/React Native",
-    "Реальный API вместо демо-экранов: вход, список игр, приказы, история шагов",
-    "Idempotency-Key и заголовки сервера 0.0.11",
-    "События WebSocket с event_id и восстановление после reconnect",
-    "Табы и экраны управляются ui_manifest сервера"
+    "Версия 0.1.1 — OTA-обновления без скачивания полного APK",
+    "Кнопка «Проверить обновление» в настройках: докачивает только код и ассеты",
+    "Исправлен запуск: expo-font приведён к версии SDK 54",
+    "Адрес сервера вшит в клиент, вход и список игр работают"
   ],
-  "apk_url": "https://github.com/odisodisseyt-design/argo/releases/download/v0.1.0/app-release.apk",
-  "sha256": "e2cd27c67a5a2d07cf48c69570e569867d2e142640d79c84f546b7bab01d0c1b",
+  "apk_url": "https://github.com/odisodisseyt-design/argo/releases/download/v0.1.1/app-release.apk",
+  "sha256": "8274cb8195ace0912c410ca683d6fe5e59b9e852680f4186c6fa230e775d2074",
   "min_client_version": 12
 }
