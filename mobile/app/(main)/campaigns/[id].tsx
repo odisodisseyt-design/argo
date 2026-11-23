@@ -24,17 +24,10 @@ export default function CampaignScreen() {
   const hapticsEnabled = usePreferences((s) => s.haptics);
   const p = usePalette();
   const [command, setCommand] = useState('');
-  const [resolving, setResolving] = useState(false);
-  const resolvingTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [submittedStep, setSubmittedStep] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const keyRef = useRef<string>('');
   const lastSeqRef = useRef<number>(0);
-
-  const markResolving = () => {
-    setResolving(true);
-    if (resolvingTimer.current) clearTimeout(resolvingTimer.current);
-    resolvingTimer.current = setTimeout(() => setResolving(false), 900);
-  };
 
   useEffect(() => {
     if (!id) return;
@@ -43,8 +36,14 @@ export default function CampaignScreen() {
   }, [id, setActive]);
 
   const game = useQuery({ queryKey: ['campaign', id], queryFn: () => campaign(id), enabled: Boolean(id) });
-  const status = useQuery({ queryKey: ['step', id], queryFn: () => stepStatus(id), enabled: Boolean(id) });
-  const history = useQuery({ queryKey: ['steps', id], queryFn: () => steps(id), enabled: Boolean(id) });
+  const status = useQuery({
+    queryKey: ['step', id], queryFn: () => stepStatus(id), enabled: Boolean(id),
+    refetchInterval: 2500,
+  });
+  const history = useQuery({
+    queryKey: ['steps', id], queryFn: () => steps(id), enabled: Boolean(id),
+    refetchInterval: 5000,
+  });
 
   useEffect(() => {
     if (!id) return;
@@ -56,8 +55,6 @@ export default function CampaignScreen() {
     const applyEvent = (event: string, payload: any, seq?: number) => {
       if (seq && seq <= lastSeqRef.current) return;
       if (seq) lastSeqRef.current = seq;
-      if (event === 'step_resolved') markResolving();
-      if (event === 'turn_final' || event === 'orders_open') setResolving(false);
       if (event === 'order_timeout' && payload?.prose) setError(payload.prose);
       if (event === 'rollback') refresh();
       refresh();
@@ -90,6 +87,7 @@ export default function CampaignScreen() {
       keyRef.current = '';
       setCommand('');
       setError(null);
+      setSubmittedStep(Number(result.step_no || status.data?.step || 0));
       if (hapticsEnabled) void Haptics.selectionAsync();
       void queryClient.invalidateQueries({ queryKey: ['step', id] });
       void queryClient.invalidateQueries({ queryKey: ['campaign', id] });
@@ -97,9 +95,11 @@ export default function CampaignScreen() {
     onError: (error: any) => Alert.alert('Приказ не принят', error?.message || 'Повтори попытку.'),
   });
 
-  useEffect(() => () => {
-    if (resolvingTimer.current) clearTimeout(resolvingTimer.current);
-  }, []);
+  useEffect(() => {
+    if (submittedStep !== null && status.data && Number(status.data.step) > submittedStep) {
+      setSubmittedStep(null);
+    }
+  }, [status.data, submittedStep]);
 
   const pickClass = useMutation({
     mutationFn: (classId: string) => chooseClass(id, classId),
@@ -110,7 +110,8 @@ export default function CampaignScreen() {
     onError: (error: any) => Alert.alert('Не получилось', error?.message || 'Попробуй ещё раз.'),
   });
 
-  const phase: CampaignPhase = resolving
+  const phase: CampaignPhase = status.data?.phase === 'resolving'
+    || (submittedStep !== null && Number(status.data?.step || 0) <= submittedStep)
     ? 'resolving'
     : status.data?.my_turn === false ? 'waiting' : 'orders';
   const latest = history.data?.steps?.[0];
@@ -129,15 +130,15 @@ export default function CampaignScreen() {
         <PhaseBadge phase={phase} />
         <View style={styles.timer}>
           <Clock3 size={14} color={p.muted} />
-          <AppText variant="muted">{status.data?.deadline ? `До ${new Date(status.data.deadline.replace(' ', 'T') + 'Z').toLocaleTimeString()}` : 'без дедлайна'}</AppText>
+          <AppText variant="muted">{status.data?.deadline ? `До ${new Date(status.data.deadline.replace(' ', 'T') + 'Z').toLocaleTimeString('ru-RU')}` : 'без дедлайна'}</AppText>
         </View>
       </View>
 
       {error ? <Panel><AppText style={{ color: p.gold }}>{error}</AppText></Panel> : null}
       <Panel style={{ gap: 8 }}>
         <AppText variant="label" style={{ color: p.accent, letterSpacing: 1.5 }}>МАСТЕР · ИСТОРИЯ</AppText>
-        <AppText style={{ lineHeight: 24 }}>{latest?.prose || game.data?.lore?.slice(0, 700) || 'Мир готовится ответить.'}</AppText>
-        <AppText variant="muted">{latest ? `Шаг ${latest.step_no}` : 'Ожидаем первую сцену'}</AppText>
+        <AppText style={{ lineHeight: 24 }}>{latest?.prose || game.data?.intro || 'Мир готовится ответить.'}</AppText>
+        <AppText variant="muted">{latest ? `Шаг ${latest.step_no}` : 'Первый час'}</AppText>
       </Panel>
 
       {phase === 'orders' && (

@@ -4,6 +4,8 @@ import { credentials } from '@/services/storage/credentials';
 export interface GameState {
   id: string;
   name: string;
+  description?: string;
+  intro?: string;
   step_no: number;
   phase: string;
   waiting_for: string[];
@@ -107,10 +109,48 @@ export async function models() {
   return apiRequest<{ models: Array<{ id: string; title: string; strength: number; speed: number; cost: string; recommended_for: string; available: boolean }> }>('/api/models');
 }
 
-export async function newCampaign(name: string, modelId: string) {
+export async function newCampaign(name: string, modelId: string, characterName?: string) {
   return apiRequest<{ campaign_id: string }>('/api/campaign/new', {
     method: 'POST',
-    body: JSON.stringify({ name, pack_id: 'refuge', model_id: modelId }),
+    body: JSON.stringify({
+      name, pack_id: 'refuge', model_id: modelId,
+      character_name: characterName || undefined,
+    }),
+  });
+}
+
+interface ItemResult {
+  ok?: boolean;
+  error?: string;
+  message?: string;
+  character?: any;
+}
+
+export async function useItem(campaignId: string, itemId: string) {
+  return apiRequest<ItemResult>('/api/inventory/use', {
+    method: 'POST',
+    body: JSON.stringify({ campaign_id: campaignId, item_id: itemId }),
+  });
+}
+
+export async function equipItem(campaignId: string, itemId: string) {
+  return apiRequest<ItemResult>('/api/inventory/equip', {
+    method: 'POST',
+    body: JSON.stringify({ campaign_id: campaignId, item_id: itemId }),
+  });
+}
+
+export async function unequipItem(campaignId: string, slot: string) {
+  return apiRequest<ItemResult>('/api/inventory/unequip', {
+    method: 'POST',
+    body: JSON.stringify({ campaign_id: campaignId, slot }),
+  });
+}
+
+export async function buyItem(campaignId: string, itemId: string) {
+  return apiRequest<ItemResult>('/api/shop/buy', {
+    method: 'POST',
+    body: JSON.stringify({ campaign_id: campaignId, item_id: itemId }),
   });
 }
 

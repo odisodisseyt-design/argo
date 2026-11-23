@@ -8,7 +8,7 @@ function wsBase() {
     .replace(/^http:/, 'ws:')
     .replace(/^https:/, 'wss:');
   if (!/^wss?:\/\//.test(ws)) {
-    throw new Error('Не настроен адрес сервера (EXPO_PUBLIC_API_URL)');
+    throw new Error('Не настроен адрес подключения. Проверь настройки приложения.');
   }
   return ws;
 }
@@ -29,7 +29,9 @@ export function createCampaignSocket(
       if (!stopped) timer = setTimeout(connect, 2000);
       return;
     }
-    socket = new WebSocket(`${wsBase()}/ws/campaign/${campaignId}?token=${encodeURIComponent(token)}`);
+    // The token travels in the subprotocol, not in the URL: proxies and logs
+    // must never see credentials. The server keeps query auth for old bundles.
+    socket = new WebSocket(`${wsBase()}/ws/campaign/${campaignId}`, [token]);
     socket.onopen = () => { attempt = 0; };
     socket.onmessage = (event) => {
       try { onMessage(JSON.parse(String(event.data)) as WsMessage); } catch { /* ignore */ }

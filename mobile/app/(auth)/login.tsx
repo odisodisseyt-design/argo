@@ -25,7 +25,7 @@ export default function Login() {
       await (mode === 'login' ? login : register)(username.trim(), password);
       router.replace('/(main)');
     } catch (error: any) {
-      Alert.alert('Не получилось войти', error?.message || 'Проверь соединение с сервером.');
+      Alert.alert('Не получилось войти', error?.message || 'Проверь соединение и попробуй ещё раз.');
     } finally {
       setBusy(false);
     }
@@ -62,7 +62,7 @@ export default function Login() {
         />
       </Panel>
       <AppText variant="muted" style={{ textAlign: 'center' }}>
-        Сервер — единственный источник правды. Клиент только показывает историю.
+        Твоя история сохраняется и продолжается, даже если закрыть приложение.
       </AppText>
     </Screen>
   );
