@@ -17,14 +17,42 @@ export interface GameState {
   lore: string;
   journal: any[];
   npcs: any[];
-  map_nodes: any[];
+  map_nodes: MapNode[];
   quests: any[];
   shop_items: any[];
   class_selection: any;
   model: any;
   language: string;
+  pack_id: string;
   pack_version: string;
   ui_manifest?: { features?: Record<string, boolean>; [key: string]: any };
+}
+
+export interface MapNode {
+  id: string;
+  name: string;
+  district: string;
+  lat: number | null;
+  lon: number | null;
+  x: number;
+  y: number;
+  biome: string;
+  danger: string;
+  visited: boolean;
+  current: boolean;
+  floor: number;
+  connections: string[];
+}
+
+export interface MapBasemap {
+  id: string;
+  width: number;
+  height: number;
+  attribution: string;
+  roads: Record<string, string>;
+  water: string;
+  rail: string;
+  labels: Array<{ text: string; x: number; y: number; kind: string }>;
 }
 
 export interface StepStatus {
@@ -95,6 +123,10 @@ export async function myCampaigns() {
 
 export async function campaign(id: string) {
   return apiRequest<GameState>(`/api/campaign/${id}`);
+}
+
+export async function mapBasemap(packId: string) {
+  return apiRequest<MapBasemap>(`/api/map/${packId}`);
 }
 
 export async function stepStatus(id: string) {
